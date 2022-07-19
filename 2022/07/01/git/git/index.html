@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Git实用命令"><meta name="keywords" content="计算机技术"><meta name="author" content="Siyuan"><meta name="copyright" content="Siyuan"><title>Git实用命令 | Neverland</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '5.4.2'
+} </script><meta name="generator" content="Hexo 5.4.2"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">Git实用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-bisect"><span class="toc-number">1.1.</span> <span class="toc-text">Git bisect</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#normally"><span class="toc-number">1.1.1.</span> <span class="toc-text">normally</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bisect"><span class="toc-number">1.1.2.</span> <span class="toc-text">bisect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="http://47.95.214.156:3001/uploads/medium/1081ccc0f270fb058ae48545b1b6f4eb.jpg"></div><div class="author-info__name text-center">Siyuan</div><div class="author-info__description text-center"></div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/sawyersven">Follo Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">10</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">10</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">4</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://47.95.214.156:3001/uploads/medium/fcec6883177323ae1bf9a3dae581059f.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Neverland</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Git实用命令</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-07-01</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Git/">Git</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2022/07/01/git/git/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2022/07/01/git/git/"></span></a><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">677</span><span class="post-meta__separator">|</span><span>阅读时长: 2 分钟</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="Git实用命令"><a href="#Git实用命令" class="headerlink" title="Git实用命令"></a>Git实用命令</h1><p>有一部分Git命令平时我们很少用到，但是实用性比较强，在此做记录。</p>
+<h2 id="Git-bisect"><a href="#Git-bisect" class="headerlink" title="Git bisect"></a>Git bisect</h2><p>通过二分法帮助排查出问题的commit.</p>
+<p>eg.:</p>
+<p>假如某一天突然发现当前版本出了BUG，但是不知道是哪次commit引入的bug。上次正常的发布版本v1距离当前HEAD有100次提交。这个时候需要排查出有bug的那次提交。应该怎么做？</p>
+<h3 id="normally"><a href="#normally" class="headerlink" title="normally"></a>normally</h3><p>通过git log/show 依次检查出问题的提交，找到出问题的代码。</p>
+<p>通过IDE自带的可视化工具，依次检查出问题的提交。</p>
+<h3 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h3><p>为方便理解，明确下文中会用到的几个关键词：</p>
+<ul>
+<li>HEAD: 指向某次Commit的指针,默认情况下指向当前分支</li>
+<li>head: 在本文中我们定义小写的head指向我们发现BUG时,HEAD的指向</li>
+</ul>
+<p>操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git bisect start HEAD HEAD~100 // 这里也可以使用commit hash代替</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因为v1的版本的功能是正常的，所以引发bug的提交一定在head和V1之间。所以这条命令的意思是<code>将head和head~100设为我们要二分搜索的两个端点</code> </p>
+<blockquote>
+<p>head是bad V1是good<br>也可以使用 git bisect start  &amp; git bisect bad &amp; git bisect good HEAD~100来代替上边的命令</p>
+</blockquote>
+<p>git会在<code>端点</code>之间的100次提交中，选择中间的一次提交。</p>
+<p>执行这行命令时，当前HEAD指向的应该是距离head的51的位置的提交，即<code>从v1之后的51次commit</code></p>
+<p>这个时候我们需要判断在当前commit状态下项目是否出现了BUG。</p>
+<p>假设在head~51的位置，我们发现项目并没有出现BUG，则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git bisect good</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上边的命令代表当前的版本是一个“好”的版本，即没有bug。</p>
+<p>随后,git会将HEAD指向head~26的位置，</p>
+<p>如果测试中发现，当前HEAD版本是有BUG的，则输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git bisect bad</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>随后,git会将HEAD指向head~37(大概，瞎写的)的位置。</p>
+<p>然后循环上边两个处理逻辑，直到最终得到出BUG的commit。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>git bisect命令会让git通过二分查找，帮助我们快速的找到出问题的bad commit。</p>
+<p>一开始我们需要指定bad的版本(head)，和good的版本(v1)，从而创建一个需要测试的区间。</p>
+<p>git会自动选择这个区间的中间提交并切换HEAD到该提交上并且会输出日志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bisecting: 12 revisions left to test after this (roughly 4 steps)</span><br></pre></td></tr></table></figure>
+
+<p>日志代表： 在此之后还有12个修订版本需要测试(大约4个步骤) </p>
+<p>日志内容根据bisect的基点和进行过程中动态会变化，上例仅参考。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Siyuan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/07/01/git/git/">http://example.com/2022/07/01/git/git/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> 许可协议。转载请注明来自 <a href="http://example.com">Neverland</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8A%80%E6%9C%AF/">计算机技术</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/07/15/FED/git-tag/"><i class="fa fa-chevron-left">  </i><span>半自动化维护Git Tag和package.json的版本号</span></a></div><div class="next-post pull-right"><a href="/2022/03/14/review/javascript/"><span>2022春季复习之Javascript</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="disqus_thread"></div><script>var unused = null;
+var disqus_config = function () {
+  this.page.url = 'http://example.com/2022/07/01/git/git/';
+  this.page.identifier = '2022/07/01/git/git/';
+  this.page.title = 'Git实用命令';
+}
+var d = document, s = d.createElement('script');
+s.src = "https://" + 'blog-gb2jzpokgw' +".disqus.com/embed.js";
+s.setAttribute('data-timestamp', '' + +new Date());
+(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://blog-gb2jzpokgw.disqus.com/count.js" async></script></div></div><footer class="footer-bg" style="background-image: url(http://47.95.214.156:3001/uploads/medium/fcec6883177323ae1bf9a3dae581059f.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2022 By Siyuan</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">但行好事，莫问前程</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
